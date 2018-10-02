@@ -1,0 +1,28 @@
+// Analog and digital signal monitor
+// By Jackson Meyers and Monty Choy
+// EE 151-2 LAB
+// Tuesday, October 02, 2018
+
+#include <SoftwareSerial.h>
+
+#define BAUD_RATE 9600
+
+#define VOLT_IN 5.0f
+
+#define A_PIN 0
+
+float anVal = 0;
+
+void setup() {
+  Serial.begin(BAUD_RATE);
+  //pinMode(D_PIN, INPUT);
+} 
+
+void loop() {
+  anVal = VOLT_IN * (float)(analogRead(A_PIN) / 1023.0); // Read the analog value in and convert to voltage.
+
+  Serial.println("Voltage: " + (String)anVal);
+  Serial.println();
+
+  delay(1000);
+}
