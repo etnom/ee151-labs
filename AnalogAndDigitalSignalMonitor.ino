@@ -14,6 +14,7 @@ int digVal = 0;
 int anVal = 0;
 
 void setup() {
+	Serial.begin(BAUD_RATE);
 	pinMode(D_PIN, INPUT);
 } 
 
