@@ -40,3 +40,10 @@ void leftMotor(int speed) {
 	analogWrite(IN3, abs(speed));
 
 }
+
+void stopAllMotors() {
+	for (int i = 4; i < 8; i++) {
+		digitalWrite(i, LOW);
+	}
+}
+
