@@ -12,8 +12,8 @@ void setup() {
 void loop() {
 	leftMotor(50);
 	rightMotor(150);
-
-	delay(1000);
+	delay(5290);
+	stopAllMotors();
 }
 
 //neg speed = backwards
