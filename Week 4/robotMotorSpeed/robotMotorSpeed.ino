@@ -41,6 +41,16 @@ void leftMotor(int speed) {
 
 }
 
+void stopRightMotor() {
+	digitalWrite(IN1, LOW);
+	digitalWrite(IN2, LOW);
+}
+
+void stopLeftMotor() {
+	digitalWrite(IN3, LOW);
+	digitalWrite(IN4, LOW);
+}
+
 void stopAllMotors() {
 	for (int i = 4; i < 8; i++) {
 		digitalWrite(i, LOW);
