@@ -1,8 +1,12 @@
+// EE 151 - 02 Lab 4, move back and pivot sketch
+// Jackson Meyers and Monty Choy
+
 #define IN1 4
 #define IN2 5
 #define IN3 6
 #define IN4 7
 
+// Setup pins
 void setup() {
   for (int i = 4; i < 8; i++) {
     pinMode(i, OUTPUT);
@@ -11,14 +15,18 @@ void setup() {
 
 void loop() 
 {
+  // Go backwards for one second
   rightMotor(-255);
   leftMotor(-255);
   delay(1000);
+  // Stop and wait one second
   stopAllMotors();
   delay(1000);
+  // Pivot
   rightMotor(255);
   leftMotor(-255);
   delay(250);
+  // Stop
   stopAllMotors();
 }
 
