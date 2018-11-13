@@ -30,15 +30,9 @@ void loop() {
 	Serial.println("Pulse width: " + (String)pulseWidth);
 	Serial.println("Distance: " + (String)distance);
 
-	if (distance > 6) {
-		digitalWrite(LED_PIN, HIGH);
-	} else {
-		digitalWrite(LED_PIN, LOW);
-	}
-
-	if (distance > 20) {
-    	tone(BUZZER_PIN, map(distance, 0, 20, 2000, 100));
-	}
+	pulseLED(distance);
+	buzz(distance, 100);
+	
 
 	delay(500);
 }
@@ -60,3 +54,20 @@ double calculateDistanceFromPulseWidth(double pulseWidth) {
 	return pulseWidth / 74 / 2;
 
 }
+
+void pulseLED(float distance) {
+	if (distance < 6) {
+		digitalWrite(LED_PIN, HIGH);
+	} else {
+		digitalWrite(LED_PIN, LOW);
+	}
+}
+
+void buzz(float distance, int buzzerDuration) {
+	if (distance < 20) {
+  	tone(BUZZER_PIN, map(distance, 0, 20, 2000, 100), buzzerDuration);
+	} else {
+		noTone(BUZZER_PIN);	
+	}
+}
+
