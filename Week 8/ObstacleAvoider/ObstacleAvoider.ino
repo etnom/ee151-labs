@@ -59,7 +59,7 @@ double findPulseWidth() {
 
 //calculate distance based on pulse width
 double calculateDistanceFromPulseWidth(double pulseWidth) {
-  if (pulseWidth < 300){
+  if (pulseWidth < 300.0){
     return 0;
   } 
 
@@ -81,6 +81,14 @@ void buzz(float distance, int buzzerDuration) {
 	} else {
 		noTone(BUZZER_PIN);	
 	}
+}
+
+float obstacleDistance(float withinInches) {
+	if (distance > withinInches) {
+		return 0;
+	}
+
+	return distance;
 }
 
 bool obstacleDetector(float withinInches) {
