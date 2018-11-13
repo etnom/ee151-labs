@@ -9,6 +9,9 @@
 
 #define LED_PIN 13
 
+#define PULSEIN_TIMEOUT 4000
+
+float distance;
 
 void setup() {
 	Serial.begin(9600);
@@ -24,8 +27,8 @@ void setup() {
 void loop() {
 	pulseUltrasonicTrigger();	
 
-	double pulseWidth = pulseIn(ECHO_PIN, HIGH);
-	float distance = calculateDistanceFromPulseWidth(pulseWidth);
+	double pulseWidth = findPulseWidth();
+	distance = calculateDistanceFromPulseWidth(pulseWidth);
 
 	Serial.println("Pulse width: " + (String)pulseWidth);
 	Serial.println("Distance: " + (String)distance);
@@ -43,6 +46,15 @@ void pulseUltrasonicTrigger() {
 	digitalWrite(TRIG_PIN, HIGH);
 	delayMicroseconds(10);
 	digitalWrite(TRIG_PIN, LOW);
+}
+
+double findPulseWidth() {
+	double pulseWidth = pulseIn(ECHO_PIN, HIGH, PULSEIN_TIMEOUT);
+	if (pulseIn < 300) {
+		return 0;
+	}
+
+	return pulseWidth;
 }
 
 //calculate distance based on pulse width
@@ -71,3 +83,10 @@ void buzz(float distance, int buzzerDuration) {
 	}
 }
 
+bool obstacleDetector(float withinInches) {
+	if (distance < withinInches) {
+		return true;
+	}
+
+	return false;
+}
