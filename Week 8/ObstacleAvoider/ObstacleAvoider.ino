@@ -1,4 +1,3 @@
-//
 
 #include <SoftwareSerial.h>
 
@@ -14,47 +13,49 @@
 float distance;
 
 void setup() {
-	Serial.begin(9600);
+  Serial.begin(9600);
 
-	pinMode(ECHO_PIN, INPUT);
-	pinMode(TRIG_PIN, OUTPUT);
-	pinMode(BUZZER_PIN, OUTPUT);
-	pinMode(LED_PIN, OUTPUT);
+  pinMode(ECHO_PIN, INPUT);
+  pinMode(TRIG_PIN, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(LED_PIN, OUTPUT);
 
 }
 
 
 void loop() {
-	pulseUltrasonicTrigger();	
+  pulseUltrasonicTrigger(); 
 
-	double pulseWidth = findPulseWidth();
-	distance = calculateDistanceFromPulseWidth(pulseWidth);
+  double pulseWidth = findPulseWidth();
+  distance = calculateDistanceFromPulseWidth(pulseWidth);
 
-	Serial.println("Pulse width: " + (String)pulseWidth);
-	Serial.println("Distance: " + (String)distance);
+  Serial.println("Pulse width: " + (String)pulseWidth);
+  Serial.println("Distance: " + (String)distance);
 
-	// pulseLED(distance);
-	// buzz(distance, 100);
-	
+  obstacleDetector(3);
+  
+  // pulseLED(distance);
+  // buzz(distance, 100);
+  
 
-	delay(500);
+  delay(500);
 }
 
 void pulseUltrasonicTrigger() {
-	digitalWrite(TRIG_PIN, LOW);
-	delayMicroseconds(2);
-	digitalWrite(TRIG_PIN, HIGH);
-	delayMicroseconds(10);
-	digitalWrite(TRIG_PIN, LOW);
+  digitalWrite(TRIG_PIN, LOW);
+  delayMicroseconds(2);
+  digitalWrite(TRIG_PIN, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(TRIG_PIN, LOW);
 }
 
 double findPulseWidth() {
-	double pulseWidth = pulseIn(ECHO_PIN, HIGH, PULSEIN_TIMEOUT);
-	if (pulseIn < 300) {
-		return 0;
-	}
+  double pulseWidth = pulseIn(ECHO_PIN, HIGH, PULSEIN_TIMEOUT);
+  if (pulseIn < 300) {
+    return 0;
+  }
 
-	return pulseWidth;
+  return pulseWidth;
 }
 
 //calculate distance based on pulse width
@@ -63,41 +64,25 @@ double calculateDistanceFromPulseWidth(double pulseWidth) {
     return 0;
   } 
 
-	return pulseWidth / 74 / 2;
+  return pulseWidth / 74 / 2;
 
-}
-
-void pulseLED(float distance) {
-	if (distance < 6) {
-		digitalWrite(LED_PIN, HIGH);
-	} else {
-		digitalWrite(LED_PIN, LOW);
-	}
-}
-
-void buzz(int buzzerDuration) {
-	if (distance < 20) {
-  	tone(BUZZER_PIN, map(distance, 0, 20, 2000, 100), buzzerDuration);
-	} else {
-		noTone(BUZZER_PIN);	
-	}
 }
 
 float obstacleDistance(float withinInches) {
-	if (distance > withinInches) {
-		digitalWrite(LED_PIN, LOW);
-		return 0;
-	}
+  if (distance > withinInches) {
+    digitalWrite(LED_PIN, LOW);
+    return 0;
+  }
 
-	buzz(100);
-	digitalWrite(LED_PIN, HIGH);
-	return distance;
+  tone(BUZZER_PIN, map(distance, 0, 20, 2000, 100), 100);
+  digitalWrite(LED_PIN, HIGH);
+  return distance;
 }
 
 bool obstacleDetector(float withinInches) {
-	if (distance < withinInches) {
-		return true;
-	}
+  if (obstacleDistance(withinInches) > 0) {
+    return true;
+  }
 
-	return false;
+  return false;
 }
