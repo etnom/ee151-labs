@@ -17,7 +17,7 @@ void setup() {
 }
 
 void loop() {
-	readLineSensor(SENSOR_ANALOG_IN_PIN, SENSOR_DIGITAL_OUT_PIN);
+
 }
 
 //reads line sensor and returns a value and writes to a pin depending on reading
