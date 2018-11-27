@@ -26,7 +26,7 @@ void setup() {
 }
 
 void loop() {
-	Serial.println(getPathSensorStates(), BIN);		//print sensor states as binary 
+
 }
 
 bool getPathSensorStates() {
@@ -36,6 +36,8 @@ bool getPathSensorStates() {
 		//read sensors for all sensor pins, store the return value of that as a sensor state
 		bitWrite(sensorStates, (i + 1), readLineSensor(SENSOR_PINS[i], DIGITAL_PINS[i]));
 	}
+
+	Serial.println(sensorStates, BIN);
 
 	return sensorStates;
 }
