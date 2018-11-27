@@ -1,6 +1,7 @@
 // Monty Choy 
 // EE 151-02
 // Mon - 11/26/18
+// Prelab Assignment #1B
 // Reads all 5 line sensors and returns a single digital code word that indicates 
 // if each sensor is over a black or white surface
 

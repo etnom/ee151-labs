@@ -1,6 +1,7 @@
 // Monty Choy 
 // EE 151-02
 // Mon - 11/26/18
+// Prelab Assignment #1A
 // Sketch to read and evaluate analog reading from one line sensor 
 // Function returns 1 and sets digital output to high if over a black line
 // returns 0 and sets digital output to low if over white
