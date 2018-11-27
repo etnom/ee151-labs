@@ -40,10 +40,13 @@ void setup() {
 }
 
 void loop() {
-	getPathSensorStates();
-	delay(500);
+	getPathSensorStates();		//get path sensor states which will properly write to digital prints and print to serial
+	delay(500);			//delay for half a second
 }
 
+//gets path sensor states
+//prints to serial as binary
+//returns sensor states as binary
 bool getPathSensorStates() {
 	byte sensorStates;
 
@@ -52,7 +55,7 @@ bool getPathSensorStates() {
 		bitWrite(sensorStates, (i + 1), readLineSensor(SENSOR_PINS[i], DIGITAL_PINS[i]));
 	}
 
-	Serial.println(sensorStates, BIN);
+	Serial.println(sensorStates, BIN);		//print sensor states as binary to serial
 
 	return sensorStates;
 }
