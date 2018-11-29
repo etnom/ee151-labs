@@ -21,7 +21,7 @@ const int DIGITAL_PINS[] = {43, 45, 47, 49, 51};
 
 const int ARR_LENGTH = 5;				//length of arrays that store pins 
  
-const int THRESHOLD = 10;				//threshold for when reading should be determined as white or black surface
+const int THRESHOLD = 500;				//threshold for when reading should be determined as white or black surface
 
 void setup() {
 	Serial.begin(9600);					//begin serial at 9600 baud rate
