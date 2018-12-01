@@ -1,25 +1,33 @@
+#include <Servo.h>
+
 const float SteeringGain = 10;
-const int DesiredSpeed = 255;
+const int DesiredSpeed = 100;
 const float sensorWidth = 5;
 const int threshold = 50;
+const int PointStraightAheadAngle = 0;
+const float PointingGain = 1;
 
 #define LEFTFORWARD 7
 #define LEFTBACK 6
 #define RIGHTFORWARD 5
 #define RIGHTBACK 4
 
+#define SERVOPIN 11
+
+Servo pointy_servo;
 
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
+  pointy_servo.attach(SERVOPIN);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   float PathError = SensePathPositionError(GetPathSensorStates());
-  if (PathError < = 2 * sensorWidth){
+  if (PathError <= 2 * sensorWidth){
     AdjustMotorSpeeds(PathError);
-    UpdatePointingAngle(PathError);
+    pointy_servo.write(UpdatePointingAngle(PathError));
   }
 }
 
@@ -94,10 +102,15 @@ byte GetPathSensorStates()
 
   for(int i=0; i<=4; i++)
   {
-    bitWrite(sensorCode, i, ReadLineSensor2((1 + i), (51 - 2*i)));
+    bitWrite(sensorCode, i, ReadLineSensor((1 + i), (51 - 2*i)));
   }
 
   //Serial.println(sensorCode, BIN);
   return sensorCode;
+}
+
+
+int UpdatePointingAngle( float PathError){
+  return PointStraightAheadAngle + PointingGain * PathError;
 }
 
