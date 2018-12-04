@@ -58,7 +58,7 @@ void setup() {
   delay(1000);
 }
 
-bool isLedOn = true
+bool isLedOn = true;
 
 void loop() {
   //this code will loop repeatedly
