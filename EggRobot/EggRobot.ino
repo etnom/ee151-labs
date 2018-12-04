@@ -57,7 +57,7 @@ void loop() {
   DetectObstacle();
 
   if(!is_stopped){
-  // put your main code here, to run repeatedly:
+  // if the robot is stopped, the robot will detect the path error:
     float PathError = SensePathPositionError(GetPathSensorStates());
     if (PathError <= 2 * sensorWidth){
       AdjustMotorSpeeds(PathError);
@@ -68,11 +68,13 @@ void loop() {
 
 void AdjustMotorSpeeds(float PathError){
   float SpeedAdjustmentPercent = SteeringGain * PathError;
+  //creates function to adjust the speeds of the motor 
   
   int RightMotorSpeed = (100.0 - SpeedAdjustmentPercent)*DesiredSpeed/100;
   int LeftMotorSpeed = (100.0 + SpeedAdjustmentPercent)*DesiredSpeed/100;
   if (LeftMotorSpeed > 255) LeftMotorSpeed = 255;
   if (RightMotorSpeed > 255) RightMotorSpeed = 255;
+  // print motor values for debugging (PWM)
   Serial.print("RIGHT: " + String(RightMotorSpeed));
   Serial.println("   LEFT: " + String(LeftMotorSpeed) + "\n");
   Move(LeftMotorSpeed, RightMotorSpeed);
@@ -86,7 +88,8 @@ float SensePathPositionError( byte PathSensorStates){
   //sensor 3 reads a black line
   else if(PathSensorStates == byte(8)) distance = -1; 
   //sensors 1 and 2 read a black line
-  else if(PathSensorStates == byte(24)) distance = -1.5; 
+  else if(PathSensorStates == byte(24)) distance = -1.5;
+  // sensors 1, 2, and 3 read a black line 
   else if (PathSensorStates == byte(28)) distance = -1.75;
   //sensor 1 reads a black line
   else if(PathSensorStates == byte(16)) distance = -2; 
@@ -113,7 +116,7 @@ float SensePathPositionError( byte PathSensorStates){
 
 //function to move
 void Move(int LeftSpeed, int RightSpeed){
-  //
+  // set each motor's value.
   analogWrite(LEFTFORWARD, LeftSpeed);
   analogWrite(RIGHTFORWARD, RightSpeed);
 }
@@ -148,11 +151,6 @@ byte GetPathSensorStates()
   //initialize variable for return
   byte sensorCode = 0;
 
-  ReadLineSensor(5, 43);
-  ReadLineSensor(4, 45);
-  ReadLineSensor(3, 47);
-  ReadLineSensor(2, 49);
-  ReadLineSensor(1, 51);
 
   for(int i=0; i<=4; i++)
   {
@@ -174,8 +172,9 @@ void ReleaseEgg() {
   int numBeeps = 3;
   //beep 3 times with buzzer
   for (int i = 0; i < numBeeps; i++){
-    
+    //
     tone(BUZZER,440,100.0);
+    //delay 1/4 second before 
     delay(250);
   }
   //drop egg
