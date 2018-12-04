@@ -24,7 +24,7 @@
 const float SteeringGain = 10;
 const int DesiredSpeed = 80;
 const float sensorWidth = 6;
-const int threshold = 50;
+const int threshold = 35;
 const int PointStraightAheadAngle = 90;
 const float PointingGain = 1.5;
 
@@ -210,7 +210,7 @@ void DetectObstacle(){
       //check if obstacle is still there
       double secpulse = PulseForObstacle();
       //if obstacle is still there
-      if (secpulse < 10 && pulse > 0){
+      if (secpulse < 10 && secpulse > 0){
         //stop object flag
         is_stopped = false;
         //obstacle is still there
