@@ -20,6 +20,11 @@
 //pin for servo that drops the egg
 #define EGGPIN 18
 
+#define LED_PIN 13
+#define LED_FREQ 100
+
+double lastLedTime = 0;
+
 //constants for properly rotating and positioning servos and motors
 const float SteeringGain = 10;
 const int DesiredSpeed = 80;
@@ -37,6 +42,8 @@ bool is_stopped = false;
 bool still_there = false;
 
 void setup() {
+  pinMode(LED_PIN, OUTPUT);
+
   // put your setup code here, to run once:
   Serial.begin(9600);
 
@@ -51,12 +58,29 @@ void setup() {
   delay(1000);
 }
 
+bool isLedOn = true
+
 void loop() {
   //this code will loop repeatedly
 
   DetectObstacle();
 
   if(!is_stopped){
+    //flash led and buzzer
+    if (isLedOn) {
+      digitalWrite(LED_PIN, HIGH);
+      tone(BUZZER,440,100.0);
+    } else {
+      digitalWrite(LED_PIN, LOW);
+    }
+
+    if (millis() < lastLedTime + LED_FREQ) {
+      isLedOn = true;
+    } else { 
+      isLedOn = false;
+      lastLedTime = millis();
+    }
+
   // if the robot is stopped, the robot will detect the path error:
     float PathError = SensePathPositionError(GetPathSensorStates());
     if (PathError <= 2 * sensorWidth){
